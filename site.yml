@@ -1,0 +1,11 @@
+---
+- name: Apply role predeploy
+  hosts: controller
+  roles:
+    - {role: 'predeploy', tags: 'predeploy'}
+
+- name: Apply role mariadb
+  hosts: controller
+  roles:
+    - {role: 'mariadb', tags: 'mariadb'}
+

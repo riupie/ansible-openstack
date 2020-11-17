@@ -1,0 +1,78 @@
+---
+#########
+# GLOBAL
+#########
+instance: bri
+region_name: odc
+exec_user: ubuntu
+
+#######
+# VIP
+#######
+internal_vip_address: 172.28.236.100
+admin_vip_address: "{{ internal_vip_address }}"
+public_vip_address: 172.28.251.100
+ovn_vip_address: 172.28.236.100
+
+internal_vip_hostname: internal.{{ region_name }}.bri.co.id
+admin_vip_hostname: admin.{{ region_name }}.bri.co.id
+public_vip_hostname: public.{{ region_name }}.bri.co.id
+#internal_vip_prefix: 24 (Default value)
+
+############
+# INTERFACE
+############
+api_interface: ens3
+public_api_interface: ens3
+overlay_interface: ens3
+provider_interface: ens11
+
+##########
+# MARIADB
+##########
+mysql_default_port: 3306
+mysql_old_root_password: "t4njung8!4"
+mysql_root_password: "nxeb6UGgF7PIzA"
+mysql_clustercheck_password: "GNR9M14VX6Wywg"
+mysql_keystone_password: "yAa5ZyVQhnYMiQ"
+mysql_glance_password: "WB3tsgescp7mJg"
+mysql_cinder_password: "zLlhfnladPeOhg"
+mysql_nova_password: "RWHaXEWRChAuwA"
+mysql_placement_password: "23eEzN9SthB9Rg"
+mysql_neutron_password: "phvOnd4Osf1zug"
+mysql_heat_password: "Xxmz0DUbvkgMFQ"
+mysql_octavia_password: "vjgx1KYu39TfRA"
+mysql_magnum_password: "Caf8nGYa59H9lw"
+
+################
+# OPENSTACK USER
+################
+rabbitmq_openstack_password: "fvFUZQ2O2Okjzg"
+pacemaker_hacluster_password: "FVxVXil73NFkZA"
+openstack_admin_password: "LuyOgTZElYqD1Q"
+openstack_glance_password: "thi353GML4PWHw"
+openstack_cinder_password: "c85O90BUs7IKbg"
+openstack_nova_password: "vEbEgrWzd2Xchw"
+openstack_placement_password: "QntRwCrHb01MuQ"
+openstack_neutron_password: "kFviZOxsMz5wUA"
+openstack_heat_password: "zAPh2YA0eAFdFA"
+openstack_heat_domain_admin_password: "Rg67JHpw0uShew"
+openstack_octavia_password: "lmSWr2xSo2VoYA"
+openstack_magnum_password: "rL103M371TKDgg"
+openstack_magnum_domain_admin_password: "5reu8UxZCLl6sw"
+
+#########
+# SECRET
+#########
+metadata_proxy_secret: "3CWl69njX4M7pLAYExX2"
+rbd_secret_uuid: "2ccb344d-e166-4036-8d55-4638c130acab"
+
+
+##########
+# OCTAVIA
+##########
+#amphora_root_password: ThisIsSecret
+ca_private_key_passphrase: "octavia!btech"
+
+#role_path: /root/ansible-openstack-ovn/roles/mariadb/templates
+node_custom_config: /root/ansible-openstack-ovn/config/

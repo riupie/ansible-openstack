@@ -1,0 +1,34 @@
+- name: Install pre-req packages
+  apt:
+    name:
+      - "apt-transport-https"
+      - "software-properties-common"
+      - "python3-mysqldb"
+      - "rsync"
+      - "python3-pymysql"
+      - "xinetd"
+    state: "present"
+
+- name: Install MariaDB Server
+  apt:
+    name: mariadb-server
+    state: latest
+    update_cache: true
+
+- debug:
+    msg: "{{ role_path }}/templates/galera.cnf.j2"
+- name: Copying over galera.cnf
+  merge_configs:
+    sources:
+      - "{{ role_path }}/templates/galera.cnf.j2"
+      - "{{ node_custom_config }}/etc/mariadb/galera.cnf"
+    dest: "/etc/mysql/conf.d/galera.cnf"
+    mode: "0644"
+
+- name: Copying over 50-server.cnf
+  merge_configs:
+    sources:
+      - "{{ role_path }}/templates/50-server.cnf.j2"
+      - "{{ node_custom_config }}/etc/mariadb/50-server.cnf"
+    dest: "/etc/mysql/mariadb.conf.d/50-server.cnf"
+    mode: "0644"

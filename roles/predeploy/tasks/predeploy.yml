@@ -1,0 +1,70 @@
+---
+- name: Ensure sudo group is present
+  group:
+    name: sudo
+    state: present
+  become: True
+
+- name: Update apt-get repo and cache
+  apt: update_cache=yes
+
+- name: Add cloud-archive:ussuri repo
+  shell: add-apt-repository cloud-archive:ussuri -y
+  become: True
+  when: ansible_os_family == 'Debian'
+
+- block:
+    - block:
+        - name: Install apt packages
+          apt:
+            update_cache: yes
+          become: True
+
+        - name: Install ca certs
+          package:
+            name: "{{ item }}"
+            state: latest
+          become: True
+          with_items:
+            - ca-certificates
+            - apt-transport-https
+            - xinetd
+        - name: Ensure apt sources list directory exists
+          file:
+            path: /etc/apt/sources.list.d
+            state: directory
+            recurse: yes
+          become: True
+      when: ansible_os_family == 'Debian'
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  become: True
+  when: ansible_os_family == 'Debian'
+
+- name: Set firewall default policy
+  become: True
+  ufw:
+    state: disabled
+    policy: allow
+  when: ansible_os_family == 'Debian'
+  ignore_errors: yes
+
+- name: Install apt packages
+  package:
+    name: "{{ (debian_pkg_install | join(' ')).split() }}"
+    state: present
+  become: True
+  when: ansible_os_family == 'Debian'
+  register: apt_install_result
+
+- name: Start and enabled chronyd
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+
+- name: Set timezone to Asia/Jakarta
+  timezone:
+    name: Asia/Jakarta
